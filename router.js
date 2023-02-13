@@ -6,7 +6,7 @@
  * Routes searches from a single page to different websites based on keywords.
  *
  * Created: 2023-02-12 03:38 PM
- * Updated: 2023-02-13 04:42 AM
+ * Updated: 2023-02-13 05:03 AM
  */
 
 function routeTo(url, query) {
@@ -25,7 +25,8 @@ var routes = {
     stackoverflow: q => routeTo("https://stackoverflow.com/search?q={0}", q),
     youtube:       q => routeTo("https://www.youtube.com/results?search_query={0}", q),
     yandex:        q => routeTo("https://yandex.com/search/?text={0}", q),
-    php:           q => routeTo("https://www.php.net/manual-lookup.php?pattern={0}&scope=quickref", q)
+    php:           q => routeTo("https://www.php.net/manual-lookup.php?pattern={0}&scope=quickref", q),
+    thepiratebay:  q => routeTo("https://thepiratebay.org/search.php?q={0}&all=on&search=Pirate+Search&page=0&orderby=", q)
 };
 
 // Aliases can be instantiated only after their parents
@@ -39,6 +40,7 @@ Object.assign(routes, {
     so:       routes.stackoverflow,
     yt:       routes.youtube,
     ydx:      routes.yandex,
+    tpb:      routes.thepiratebay,
     _default: routes.google // must always be defined last
 });
 
