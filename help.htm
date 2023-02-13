@@ -4,6 +4,7 @@
 body{cursor:default}
 mark{background:#eee;padding:0px .5ch;font-weight:bold}
 mark:hover{background:#ccc}
+mark:hover > .r{background:#daa}
 </style>
 
 <script>
@@ -54,6 +55,8 @@ for (let route in supportedRoutes) {
         val[2] = _mark(val[2]);
         val = val.join(' ');
     }
+
+    val = val.replace("{{ query }}", "<span class=\"r\">{{ query }}</span");
 
     var pad = (_mark(route) + ' ').padEnd(27, '=');
     p.innerHTML += "  - " + pad + "=> " + val + "\n";
