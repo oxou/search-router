@@ -1,0 +1,88 @@
+<body></body>
+
+<style>
+body{cursor:default}
+mark{background:#eee;padding:0px .5ch;font-weight:bold}
+mark:hover{background:#ccc}
+</style>
+
+<script>
+var supportedRoutes = {
+    "_default": "Alias for :google",
+    "amazon": "https://www.amazon.com/s?k={{ query }}",
+    "ebay": "https://www.ebay.com/sch/i.html?_nkw={{ query }}",
+    "facebook": "https://www.facebook.com/search/top/?q={{ query }}",
+    "wikipedia": "https://www.wikipedia.org/search-redirect.php?family=Wikipedia&language=en&search={{ query }}",
+    "stackoverflow": "https://stackoverflow.com/search?q={{ query }}",
+    "youtube": "https://www.youtube.com/results?search_query={{ query }}",
+    "google": "https://www.youtube.com/results?search_query={{ query }}",
+    "duckduckgo": "https://duckduckgo.com/?q={{ query }}",
+    "bing": "https://www.bing.com/search?q={{ query }}",
+    "yandex": "https://yandex.com/search/?text={{ query }}",
+    "twitter": "https://twitter.com/search?q={{ query }}&src=typed_query",
+    "php": "https://www.php.net/manual-lookup.php?pattern={{ query }}&scope=quickref",
+    "fb": "Alias for :facebook",
+    "wiki": "Alias for :wikipedia",
+    "so": "Alias for :stackoverflow",
+    "yt": "Alias for :youtube",
+    "ggl": "Alias for :google",
+    "ddg": "Alias for :duckduckgo",
+    "amz": "Alias for :amazon",
+    "ydx": "Alias for :yandex",
+    "tw": "Alias for :twitter"
+};
+
+function _mark(v) {
+    return "<mark>" + v + "</mark>";
+}
+
+var d = document.createElement("div");
+var p = document.createElement("pre");
+
+d.innerHTML = '<img src="icon/head.png" height="48">';
+p.innerHTML = 'Must provide a ?q= parameter in the <a href="index.htm">index.htm</a> URL.\n\nSupported entries include:\n\n';
+
+// Print supported entries
+for (let route in supportedRoutes) {
+    var val = supportedRoutes[route];
+
+    if (val.substring(0, 4) === "http")
+        val = _mark(val);
+
+    if (val.substring(0, 5) === "Alias") {
+        val = val.split(' ');
+        val[2] = _mark(val[2]);
+        val = val.join(' ');
+    }
+
+    var pad = (_mark(route) + ' ').padEnd(27, '=');
+    p.innerHTML += "  - " + pad + "=> " + val + "\n";
+}
+
+p.innerHTML += "\nThe way search route works is by checking the first word in the query and goes onto comparing available routes until a match is found.\nYou can omit this check by providing a backslash (\\) character at the start of your query, this will route to the <mark>_default</mark> route.\n\n";
+p.innerHTML += "Here are some examples of queries:\n\n";
+
+var exampleQueries = {
+    "wiki CPU": "Calls WIKIPEDIA and redirects to https://en.wikipedia.org/wiki/Central_processing_unit",
+    "amazon Programming Books": "Calls AMAZON and redirects to https://www.amazon.com/s?k=Programming+Books",
+    "ddg How secure is Google?": "Calls DUCKDUCKGO and redirects to https://duckduckgo.com/?q=How+secure+is+Google%3F&ia=web",
+    "so [cpp] What is a dangling pointer?": "Calls STACKOVERFLOW and redirects to https://stackoverflow.com/search?q=%5Bcpp%5D%20dangling%20pointer",
+    "yt Programming Music": "Calls YOUTUBE and redirects to https://www.youtube.com/results?search_query=Programming+Music",
+    "When was Google first hosted?": "Calls _DEFAULT and redirects to https://www.google.com/search?q=When+was+Google+first+hosted%3F&hl=en",
+    "\\Wikipedia is how old?": "Calls _DEFAULT because of backslash (\\) character and redirects to https://www.google.com/search?q=Wikipedia+is+how+old%3F&hl=en"
+};
+
+// Print example queries
+for (let query in exampleQueries) {
+    var pad = (query + ' ').padEnd(37, '=');
+    var val = exampleQueries[query];
+    val = val.split(' ');
+    var l = val.length;
+    val[1] = _mark(val[1]);
+    val[l-1] = _mark(val[l - 1]);
+    val = val.join(' ');
+    p.innerHTML += "  - " + pad + "=> " + val + "\n";
+}
+
+document.body.append(d, p);
+</script>
